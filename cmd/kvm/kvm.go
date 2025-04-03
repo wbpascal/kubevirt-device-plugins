@@ -4,7 +4,7 @@ import (
 	"flag"
 
 	"github.com/kubevirt/device-plugin-manager/pkg/dpm"
-	"github.com/kubevirt/kubernetes-device-plugins/pkg/kvm"
+	"github.com/wbpascal/kubevirt-device-plugins/pkg/kvm"
 )
 
 func main() {

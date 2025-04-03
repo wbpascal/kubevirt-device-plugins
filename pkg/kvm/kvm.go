@@ -7,7 +7,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/kubevirt/device-plugin-manager/pkg/dpm"
 	"golang.org/x/net/context"
-	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
+	pluginapi "k8s.io/kubelet/pkg/apis/deviceplugin/v1beta1"
 )
 
 const (
@@ -106,5 +106,9 @@ func (KVMDevicePlugin) GetDevicePluginOptions(context.Context, *pluginapi.Empty)
 // before each container start. Device plugin can run device specific operations
 // such as reseting the device before making devices available to the container
 func (KVMDevicePlugin) PreStartContainer(context.Context, *pluginapi.PreStartContainerRequest) (*pluginapi.PreStartContainerResponse, error) {
+	return nil, nil
+}
+
+func (dp *KVMDevicePlugin) GetPreferredAllocation(ctx context.Context, request *pluginapi.PreferredAllocationRequest) (*pluginapi.PreferredAllocationResponse, error) {
 	return nil, nil
 }
