@@ -99,7 +99,10 @@ func (dpi *KVMDevicePlugin) Allocate(ctx context.Context, r *pluginapi.AllocateR
 // GetDevicePluginOptions returns options to be communicated with Device
 // Manager
 func (KVMDevicePlugin) GetDevicePluginOptions(context.Context, *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
-	return nil, nil
+	var options pluginapi.DevicePluginOptions
+	options.GetPreferredAllocationAvailable = false
+	options.PreStartRequired = false
+	return &options, nil
 }
 
 // PreStartContainer is called, if indicated by Device Plugin during registeration phase,

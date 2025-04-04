@@ -1,4 +1,4 @@
-REGISTRY ?= quay.io/kubevirt
+REGISTRY ?= ghcr.io/wbpascal
 
 PLUGINS = $(sort \
 		  $(subst /,-,\
@@ -17,6 +17,11 @@ all: build
 build: format $(patsubst %, build-%, $(PLUGINS))
 
 build-%:
+	cd cmd/$(subst -,/,$*) && go fmt && go vet && go build
+
+install: format $(patsubst %, install-%, $(PLUGINS))
+
+install-%:
 	cd cmd/$(subst -,/,$*) && go fmt && go vet && go install -v
 
 format:
@@ -35,8 +40,7 @@ functest:
 docker-build: $(patsubst %, docker-build-%, $(DOCKERFILES))
 
 docker-build-%:
-	@cp ${GOPATH}/bin/${notdir $(subst -,/,$*)} ./cmd/$(subst -,/,$*)
-	docker build -t ${REGISTRY}/device-plugin-$*:latest ./cmd/$(subst -,/,$*)
+	docker build -t ${REGISTRY}/device-plugin-$*:latest -f ./cmd/$(subst -,/,$*)/Dockerfile .
 
 docker-push: $(patsubst %, docker-push-%, $(DOCKERFILES))
 
